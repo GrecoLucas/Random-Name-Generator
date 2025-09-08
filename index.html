@@ -3,352 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY NAME GENERATOR</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .input-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-        }
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-        input[type="text"] {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            flex: 1;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .generate-btn {
-            background-color: #28a745;
-            font-size: 18px;
-            padding: 15px 30px;
-            display: block;
-            margin: 20px auto;
-        }
-        .generate-btn:hover {
-            background-color: #218838;
-        }
-        .lists-container {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        .list-section {
-            flex: 1;
-        }
-        .list-section h3 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-        .name-list {
-            background-color: white;
-            border: 2px solid #eee;
-            border-radius: 5px;
-            min-height: 200px;
-            padding: 15px;
-        }
-        .name-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .name-item:last-child {
-            border-bottom: none;
-        }
-        .remove-btn {
-            background-color: #dc3545;
-            padding: 5px 10px;
-            font-size: 12px;
-        }
-        .remove-btn:hover {
-            background-color: #c82333;
-        }
-        .result-section {
-            text-align: center;
-            padding: 20px;
-            background-color: #e9f7ef;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        .generated-name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #155724;
-            margin-top: 10px;
-        }
-        .error-message {
-            color: #dc3545;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-    </style>
+    <title>NameCoise - Random Name Generator</title>
+    <meta name="description" content="Generate random names by combining custom first names and last names">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>NameCoise</h1>
-        <p class="subtitle">Seu gerador de nomes aleatórios</p>
         
         <div class="input-section">
             <div class="input-group">
-                <label for="prename">Prenome:</label>
-                <input type="text" id="prename" placeholder="Digite prenome(s) - separe múltiplos com hífen (-)">
-                <button onclick="addPrename()">Adicionar Prenome</button>
+                <label for="prename">First Name:</label>
+                <input type="text" id="prename" placeholder="Enter first name(s) - separate multiple with hyphen (-)">
+                <button onclick="addPrename()">Add First Name</button>
             </div>
             
             <div class="input-group">
-                <label for="surname">Sobrenome:</label>
-                <input type="text" id="surname" placeholder="Digite sobrenome(s) - separe múltiplos com hífen (-)">
-                <button onclick="addSurname()">Adicionar Sobrenome</button>
+                <label for="surname">Last Name:</label>
+                <input type="text" id="surname" placeholder="Enter last name(s) - separate multiple with hyphen (-)">
+                <button onclick="addSurname()">Add Last Name</button>
             </div>
         </div>
 
         <div class="lists-container">
             <div class="list-section">
-                <h3>Prenomes (<span id="prename-count">0</span>)</h3>
+                <h3>First Names (<span id="prename-count">0</span>)</h3>
                 <div id="prename-list" class="name-list">
-                    <p style="color: #666; text-align: center;">Nenhum prenome adicionado ainda</p>
+                    <p style="color: #666; text-align: center;">No first names added yet</p>
                 </div>
             </div>
             
             <div class="list-section">
-                <h3>Sobrenomes (<span id="surname-count">0</span>)</h3>
+                <h3>Last Names (<span id="surname-count">0</span>)</h3>
                 <div id="surname-list" class="name-list">
-                    <p style="color: #666; text-align: center;">Nenhum sobrenome adicionado ainda</p>
+                    <p style="color: #666; text-align: center;">No last names added yet</p>
                 </div>
             </div>
         </div>
 
-        <button class="generate-btn" onclick="generateRandomName()">Gerar Nome Aleatório</button>
+        <button class="generate-btn" onclick="generateRandomName()">Generate Random Name</button>
 
         <div id="result-section" class="result-section" style="display: none;">
-            <h3>Nome Gerado:</h3>
+            <h3>Generated Name:</h3>
             <div id="generated-name" class="generated-name"></div>
         </div>
     </div>
 
-    <script>
-        let prenames = [];
-        let surnames = [];
-
-        // Carregar dados salvos ao iniciar
-        function loadSavedData() {
-            const savedPrenames = localStorage.getItem('namecoise-prenames');
-            const savedSurnames = localStorage.getItem('namecoise-surnames');
-            
-            if (savedPrenames) {
-                prenames = JSON.parse(savedPrenames);
-                updatePrenameList();
-            }
-            
-            if (savedSurnames) {
-                surnames = JSON.parse(savedSurnames);
-                updateSurnameList();
-            }
-        }
-
-        // Salvar dados no localStorage
-        function saveData() {
-            localStorage.setItem('namecoise-prenames', JSON.stringify(prenames));
-            localStorage.setItem('namecoise-surnames', JSON.stringify(surnames));
-        }
-
-        function addPrename() {
-            const input = document.getElementById('prename');
-            const inputValue = input.value.trim();
-            
-            if (inputValue === '') {
-                alert('Por favor, digite um prenome válido!');
-                return;
-            }
-            
-            // Separar por hífen e processar cada nome
-            const names = inputValue.split('-').map(name => name.trim()).filter(name => name !== '');
-            let addedCount = 0;
-            let duplicateCount = 0;
-            
-            names.forEach(name => {
-                if (!prenames.includes(name)) {
-                    prenames.push(name);
-                    addedCount++;
-                } else {
-                    duplicateCount++;
-                }
-            });
-            
-            input.value = '';
-            updatePrenameList();
-            saveData();
-            
-            // Mostrar feedback ao usuário
-            if (addedCount > 0 && duplicateCount > 0) {
-                alert(`${addedCount} prenome(s) adicionado(s). ${duplicateCount} já existia(m) na lista.`);
-            } else if (duplicateCount > 0 && addedCount === 0) {
-                alert('Todos os prenomes já foram adicionados anteriormente!');
-            } else if (addedCount > 1) {
-                alert(`${addedCount} prenomes adicionados com sucesso!`);
-            }
-        }
-
-        function addSurname() {
-            const input = document.getElementById('surname');
-            const inputValue = input.value.trim();
-            
-            if (inputValue === '') {
-                alert('Por favor, digite um sobrenome válido!');
-                return;
-            }
-            
-            // Separar por hífen e processar cada nome
-            const names = inputValue.split('-').map(name => name.trim()).filter(name => name !== '');
-            let addedCount = 0;
-            let duplicateCount = 0;
-            
-            names.forEach(name => {
-                if (!surnames.includes(name)) {
-                    surnames.push(name);
-                    addedCount++;
-                } else {
-                    duplicateCount++;
-                }
-            });
-            
-            input.value = '';
-            updateSurnameList();
-            saveData();
-            
-            // Mostrar feedback ao usuário
-            if (addedCount > 0 && duplicateCount > 0) {
-                alert(`${addedCount} sobrenome(s) adicionado(s). ${duplicateCount} já existia(m) na lista.`);
-            } else if (duplicateCount > 0 && addedCount === 0) {
-                alert('Todos os sobrenomes já foram adicionados anteriormente!');
-            } else if (addedCount > 1) {
-                alert(`${addedCount} sobrenomes adicionados com sucesso!`);
-            }
-        }
-
-        function removePrename(index) {
-            prenames.splice(index, 1);
-            updatePrenameList();
-            saveData();
-        }
-
-        function removeSurname(index) {
-            surnames.splice(index, 1);
-            updateSurnameList();
-            saveData();
-        }
-
-        function updatePrenameList() {
-            const listElement = document.getElementById('prename-list');
-            const countElement = document.getElementById('prename-count');
-            
-            countElement.textContent = prenames.length;
-            
-            if (prenames.length === 0) {
-                listElement.innerHTML = '<p style="color: #666; text-align: center;">Nenhum prenome adicionado ainda</p>';
-            } else {
-                listElement.innerHTML = prenames.map((name, index) => 
-                    `<div class="name-item">
-                        <span>${name}</span>
-                        <button class="remove-btn" onclick="removePrename(${index})">Remover</button>
-                    </div>`
-                ).join('');
-            }
-        }
-
-        function updateSurnameList() {
-            const listElement = document.getElementById('surname-list');
-            const countElement = document.getElementById('surname-count');
-            
-            countElement.textContent = surnames.length;
-            
-            if (surnames.length === 0) {
-                listElement.innerHTML = '<p style="color: #666; text-align: center;">Nenhum sobrenome adicionado ainda</p>';
-            } else {
-                listElement.innerHTML = surnames.map((name, index) => 
-                    `<div class="name-item">
-                        <span>${name}</span>
-                        <button class="remove-btn" onclick="removeSurname(${index})">Remover</button>
-                    </div>`
-                ).join('');
-            }
-        }
-
-        function generateRandomName() {
-            const resultSection = document.getElementById('result-section');
-            const generatedNameElement = document.getElementById('generated-name');
-            
-            if (prenames.length === 0 || surnames.length === 0) {
-                generatedNameElement.innerHTML = '<div class="error-message">Você precisa adicionar pelo menos um prenome e um sobrenome!</div>';
-                resultSection.style.display = 'block';
-                return;
-            }
-            
-            const randomPrename = prenames[Math.floor(Math.random() * prenames.length)];
-            const randomSurname = surnames[Math.floor(Math.random() * surnames.length)];
-            
-            generatedNameElement.textContent = `${randomPrename} ${randomSurname}`;
-            resultSection.style.display = 'block';
-        }
-
-        // Permitir adicionar nomes pressionando Enter
-        document.getElementById('prename').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                addPrename();
-            }
-        });
-
-        document.getElementById('surname').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                addSurname();
-            }
-        });
-
-        // Carregar dados ao inicializar
-        window.addEventListener('DOMContentLoaded', loadSavedData);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
