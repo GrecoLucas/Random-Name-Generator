@@ -28,7 +28,6 @@ function addPrename() {
     const inputValue = input.value.trim();
     
     if (inputValue === '') {
-        alert('Por favor, digite um prenome válido!');
         return;
     }
     
@@ -49,15 +48,6 @@ function addPrename() {
     input.value = '';
     updatePrenameList();
     saveData();
-    
-    // Mostrar feedback ao usuário
-    if (addedCount > 0 && duplicateCount > 0) {
-        alert(`${addedCount} prenome(s) adicionado(s). ${duplicateCount} já existia(m) na lista.`);
-    } else if (duplicateCount > 0 && addedCount === 0) {
-        alert('Todos os prenomes já foram adicionados anteriormente!');
-    } else if (addedCount > 1) {
-        alert(`${addedCount} prenomes adicionados com sucesso!`);
-    }
 }
 
 function addSurname() {
@@ -65,7 +55,6 @@ function addSurname() {
     const inputValue = input.value.trim();
     
     if (inputValue === '') {
-        alert('Por favor, digite um sobrenome válido!');
         return;
     }
     
@@ -86,15 +75,6 @@ function addSurname() {
     input.value = '';
     updateSurnameList();
     saveData();
-    
-    // Mostrar feedback ao usuário
-    if (addedCount > 0 && duplicateCount > 0) {
-        alert(`${addedCount} sobrenome(s) adicionado(s). ${duplicateCount} já existia(m) na lista.`);
-    } else if (duplicateCount > 0 && addedCount === 0) {
-        alert('Todos os sobrenomes já foram adicionados anteriormente!');
-    } else if (addedCount > 1) {
-        alert(`${addedCount} sobrenomes adicionados com sucesso!`);
-    }
 }
 
 function removePrename(index) {
